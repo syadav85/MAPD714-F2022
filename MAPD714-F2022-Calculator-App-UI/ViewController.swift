@@ -41,7 +41,7 @@ class ViewController: UIViewController {
                     print(providedText)
                     InputLabel.text = providedText
                     var resultHere = calculate(var: providedText)
-                    ResultLabel.text = String(format: "%.2f", resultHere)
+                    ResultLabel.text = formatResult(result: resultHere)
                     print(resultHere)
                     
                 default:
@@ -108,7 +108,7 @@ class ViewController: UIViewController {
                         case "-":
                             res = Double(stackOperand.stackValue[stackOperand.stackValue.count-2])! - Double(stackOperand.popValue())!
                             stackOperand.popValue()
-                        case "*":
+                        case "x":
                             res = Double(stackOperand.popValue())! * Double(stackOperand.popValue())!
                         case "/":
                             res = Double(stackOperand.stackValue[stackOperand.stackValue.count-2])! / Double(stackOperand.popValue())!
@@ -136,7 +136,7 @@ class ViewController: UIViewController {
             case "-":
                 calcResult = Double(stackOperand.stackValue[stackOperand.stackValue.count-2])! - Double(stackOperand.popValue())!
                 stackOperand.popValue()
-            case "*":
+            case "x":
                 calcResult = Double(stackOperand.popValue())! * Double(stackOperand.popValue())!
             case "/":
                 calcResult = Double(stackOperand.stackValue[stackOperand.stackValue.count-2])! / Double(stackOperand.popValue())!
@@ -155,6 +155,17 @@ class ViewController: UIViewController {
         return Double(stackOperand.popValue())!
 
    }
+    
+    func formatResult(result:Double) -> String
+    {
+        if(result.truncatingRemainder(dividingBy: 1)) == 0
+        {
+            return String(format: "%.0f", result)
+        } else
+        {
+            return String(format: "%.8f", result)
+        }
+    }
 
     
 }
@@ -204,7 +215,7 @@ extension String {
                 return 1
                 case "-":
                 return 1
-                case "*":
+                case "x":
                 return 0
                 case "/":
                 return 0
@@ -218,7 +229,7 @@ extension String {
     
     var isOperator: Bool {
         get {
-            return ("+-*/%" as NSString).contains(self)
+            return ("+-x/%" as NSString).contains(self)
         }
     }
     
