@@ -1,9 +1,9 @@
 /*
   File name: ViewController.swift
-  App description : Calculator App
+  App description : Calculator App Basic Functionality
   Author's name: Satender Yadav, Apeksha Parmar
   StudentID: 301293305,301205325
-  Date: 9/23/22.
+  Date: 10/08/22.
   Version: 1.0
  */
 
@@ -11,124 +11,98 @@ import UIKit
 
 class ViewController: UIViewController {
 
-
     @IBOutlet weak var InputLabel: UILabel!
   
     @IBOutlet weak var ResultLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
     }
     
-    
+    //this method enables user input based on numbers and operators
     @IBAction func NumberButton_Pressed(_ sender: UIButton) {
-        
         let button = sender as UIButton
-                let buttonText = button.titleLabel?.text
-                
-                switch (buttonText)
-                {
-                case ".":
-                    if(!InputLabel.text!.contains("."))
-                    {
-                        InputLabel.text?.append(buttonText!)
-                    }
-                case "=":
-                    var providedText: String = String(InputLabel.text!)
-                    print(providedText)
-                    providedText = providedText.map { "\($0)" }.joined(separator: " ")
-                    print(providedText)
-                    InputLabel.text = providedText
-                    var resultHere = calculate(var: providedText)
-                    ResultLabel.text = formatResult(result: resultHere)
-                    print(resultHere)
-                    
-                default:
-                    if(InputLabel.text == "0")
-                    {
-                        InputLabel.text = buttonText
-                    }
-                    else
-                    {
-                        InputLabel.text?.append(buttonText!)
-                    }
-                    
-                }
-
-    }
-    
-    @IBAction func ExtraButton_Pressed(_ sender: UIButton) {
+        let buttonValue = button.titleLabel?.text
         
-        let button = sender as UIButton
-                let buttonText = button.titleLabel?.text
-                switch buttonText
-                {
-                case "AC":
-                    ResultLabel.text = "0"
-                    InputLabel.text = "0"
-//                    lhs = 0.0
-//                    rhs = 0.0
-//                    haveLHS = false
-//                    haveRHS = false
-//                    inputReady = true
-//                    activeOperator = ""
-                default:
-                    if(InputLabel.text!.count == 1)
-                    {
-                        InputLabel.text = "0"
-                    }
-                    else
-                    {
-                        InputLabel.text?.removeLast()
-                    }
-                }
-
-    }
-    
-    func calculate(var expression: String) -> Double {
-        var inputValues = expression.split(separator: " ").map(String.init)
-        var stackOperand = CalculatorStack()
-        var stackOperator = CalculatorStack()
-
-//        var tokens: [String] = Array(arrayLiteral: expression)
-        for (index, inputValue) in inputValues.enumerated() {
-            
-            if inputValue.isNumber {
-                stackOperand.pushValue(value: inputValue)
+        switch (buttonValue)
+        {
+        case ".":
+            if(!InputLabel.text!.contains("."))
+            {
+                InputLabel.text?.append(buttonValue!)
             }
+        case "=":
+            var providedString: String = String(InputLabel.text!)                  // store user Input
+            providedString = providedString.map { "\($0)" }.joined(separator: " ") // format by adding space between
+            InputLabel.text = providedString                    // display user input in input label
+            var result = calculate(var: providedString)     // call calculate to get expression result
+            ResultLabel.text = formatResult(result: result) // format and display result
+        default:
+            InputLabel.text == "0" ? InputLabel.text = buttonValue : InputLabel.text?.append(buttonValue!)
+        }
+    }
+    
+    // this method clears single and all value in input label, result label
+    @IBAction func ExtraButton_Pressed(_ sender: UIButton) {
+        let button = sender as UIButton
+        let buttonText = button.titleLabel?.text
+        switch buttonText
+        {
+        case "AC":
+            ResultLabel.text = "0"
+            InputLabel.text = "0"
+        default:
+            if(InputLabel.text!.count == 1)
+            {
+                InputLabel.text = "0"
+            }
+            else
+            {
+                InputLabel.text?.removeLast()
+            }
+        }
+    }
+    
+    // Calculate given expression by parsing with stack structure
+    func calculate(var providedExpression: String) -> Double {
+        let inputValues = providedExpression.split(separator: " ").map(String.init)
+        let stackOperand = CalculatorStack()
+        let stackOperator = CalculatorStack()
 
-            if inputValue.isOperator {
-                while stackOperator.lookValue.OperatorPrecedence <= inputValue.OperatorPrecedence {
+        for (_, inputValue) in inputValues.enumerated() {
+            if inputValue.isTypeNumber {
+                stackOperand.pushValue(value: inputValue)  // Add number input
+            }
+            if inputValue.isTypeOperator {
+                while stackOperator.lookValue.OperatorPrecedence <= inputValue.OperatorPrecedence {  // stack operators based on precedence
                     if !stackOperator.empty {
-                        var res = 0.0
+                        var calcResult = 0.0
                         switch stackOperator.lookValue {
                         case "+":
-                            res = Double(stackOperand.popValue())! + Double(stackOperand.popValue())!
+                            calcResult = Double(stackOperand.popValue())! + Double(stackOperand.popValue())!
                         case "-":
-                            res = Double(stackOperand.stackValue[stackOperand.stackValue.count-2])! - Double(stackOperand.popValue())!
+                            calcResult = Double(stackOperand.stackValue[stackOperand.stackValue.count-2])! - Double(stackOperand.popValue())!
                             stackOperand.popValue()
                         case "x":
-                            res = Double(stackOperand.popValue())! * Double(stackOperand.popValue())!
+                            calcResult = Double(stackOperand.popValue())! * Double(stackOperand.popValue())!
                         case "/":
-                            res = Double(stackOperand.stackValue[stackOperand.stackValue.count-2])! / Double(stackOperand.popValue())!
+                            calcResult = Double(stackOperand.stackValue[stackOperand.stackValue.count-2])! / Double(stackOperand.popValue())!
                             stackOperand.popValue()
                         case "%":
-                            res = Double(stackOperand.popValue())! / 100
+                            calcResult = Double(stackOperand.popValue())! / 100
                             stackOperand.popValue()
                         default:
-                            res = 0
+                            calcResult = 0
                         }
                         stackOperator.popValue()
-                        stackOperand.pushValue(value: "\(res)")
+                        stackOperand.pushValue(value: "\(calcResult)")
                     }
                 }
                 stackOperator.pushValue(value: inputValue)
             }
-
         }
 
-        while !stackOperator.empty {
+        while !stackOperator.empty {          // perform operations when there are operators
             var calcResult = 0.0
             switch stackOperator.lookValue {
             case "+":
@@ -151,25 +125,26 @@ class ViewController: UIViewController {
             stackOperand.pushValue(value: "\(calcResult)")
         }
 
-
         return Double(stackOperand.popValue())!
-
    }
     
+    // This method formats decimal to 8 places for result value
     func formatResult(result:Double) -> String
     {
-        if(result.truncatingRemainder(dividingBy: 1)) == 0
+        if(result.description.count > 8)
         {
-            return String(format: "%.0f", result)
+            return String(round(100000000 * result) / 100000000)
         } else
         {
-            return String(format: "%.8f", result)
+            return String(result)
         }
     }
-
-    
 }
 
+/*
+ * class CalculatorStack - to perform parsing of expressions
+ * have basic function like pop, push, lookValue, empty
+ */
 class CalculatorStack {
     
     var stackValue: [String] = []
@@ -206,8 +181,8 @@ class CalculatorStack {
     
 }
 
+//Formated string extension to return value based on switch case
 extension String {
-    
     var OperatorPrecedence: Int {
         get {
             switch self {
@@ -227,17 +202,15 @@ extension String {
         }
     }
     
-    var isOperator: Bool {
+    var isTypeNumber: Bool {
+        get {
+            return !isTypeOperator
+        }
+    }
+    
+    var isTypeOperator: Bool {
         get {
             return ("+-x/%" as NSString).contains(self)
         }
     }
-    
-    var isNumber: Bool {
-        get {
-            return !isOperator
-        }
-    }
-    
 }
-
