@@ -10,8 +10,6 @@
 import UIKit
 
 class ViewController: UIViewController {
-    
-    var toggleButtonClicked = false
 
     @IBOutlet weak var InputLabel: UILabel!
   
