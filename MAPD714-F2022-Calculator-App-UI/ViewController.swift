@@ -10,6 +10,8 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    var toggleButtonClicked = false
 
     @IBOutlet weak var InputLabel: UILabel!
   
@@ -37,10 +39,31 @@ class ViewController: UIViewController {
             InputLabel.text = providedString                    // display user input in input label
             var result = calculate(var: providedString)     // call calculate to get expression result
             ResultLabel.text = formatResult(result: result) // format and display result
+        case "+/-":
+            toggleButton()
         default:
             InputLabel.text == "0" ? InputLabel.text = buttonValue : InputLabel.text?.append(buttonValue!)
         }
     }
+    
+    //this method toggles + and - button by replacing the character
+    func toggleButton() {
+        if(InputLabel.text?.description.last == "+")
+        {
+            if let range = InputLabel.text?.description.range(of: "+") {
+                let updatedString = InputLabel.text?.description.replacingCharacters(in: range, with: "-")
+                InputLabel.text = updatedString
+                
+            }
+        } else if (InputLabel.text?.description.last == "-") {
+            if let range = InputLabel.text?.description.range(of: "-") {
+                let updatedString = InputLabel.text?.description.replacingCharacters(in: range, with: "+")
+                InputLabel.text = updatedString
+                
+            }
+        }
+    }
+    
     
     // this method clears single and all value in input label, result label
     @IBAction func ExtraButton_Pressed(_ sender: UIButton) {
@@ -134,8 +157,10 @@ class ViewController: UIViewController {
         if(result.description.count > 8)
         {
             return String(round(100000000 * result) / 100000000)
-        } else
+        } else if (result.truncatingRemainder(dividingBy: 1) == 0)
         {
+            return String(format: "%.0f", result)
+        } else {
             return String(result)
         }
     }
