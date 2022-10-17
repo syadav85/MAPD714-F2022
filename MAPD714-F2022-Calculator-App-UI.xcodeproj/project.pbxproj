@@ -13,6 +13,7 @@
 		4671D5F328DE2F9A0077E0B9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4671D5F128DE2F9A0077E0B9 /* Main.storyboard */; };
 		4671D5F528DE2F9E0077E0B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4671D5F428DE2F9E0077E0B9 /* Assets.xcassets */; };
 		4671D5F828DE2F9E0077E0B9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4671D5F628DE2F9E0077E0B9 /* LaunchScreen.storyboard */; };
+		A052A48A28F5D31300F77CB7 /* LandscapeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A052A48928F5D31300F77CB7 /* LandscapeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		4671D5F428DE2F9E0077E0B9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4671D5F728DE2F9E0077E0B9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4671D5F928DE2F9E0077E0B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A052A48928F5D31300F77CB7 /* LandscapeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandscapeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				4671D5F428DE2F9E0077E0B9 /* Assets.xcassets */,
 				4671D5F628DE2F9E0077E0B9 /* LaunchScreen.storyboard */,
 				4671D5F928DE2F9E0077E0B9 /* Info.plist */,
+				A052A48928F5D31300F77CB7 /* LandscapeViewController.swift */,
 			);
 			path = "MAPD714-F2022-Calculator-App-UI";
 			sourceTree = "<group>";
@@ -140,6 +143,7 @@
 			files = (
 				4671D5F028DE2F9A0077E0B9 /* ViewController.swift in Sources */,
 				4671D5EC28DE2F9A0077E0B9 /* AppDelegate.swift in Sources */,
+				A052A48A28F5D31300F77CB7 /* LandscapeViewController.swift in Sources */,
 				4671D5EE28DE2F9A0077E0B9 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
