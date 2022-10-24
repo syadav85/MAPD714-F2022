@@ -15,10 +15,6 @@ class ViewController: UIViewController {
   
     @IBOutlet weak var ResultLabel: UILabel!
     
-    @IBOutlet weak var HorizontalInputLabel: UILabel!
-    
-    @IBOutlet weak var HorizontalResultLabel: UILabel!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -38,8 +34,8 @@ class ViewController: UIViewController {
             }
         case "=":
             var providedString: String = String(InputLabel.text!)         // Get user input
-            var result3 = basicAndScientificCalc(var: providedString)     // call calculate to get expression result
-            ResultLabel.text = formatResult(result: result3)              // format and display result
+            var result = basicAndScientificCalc(var: providedString)     // call calculate to get expression result
+            ResultLabel.text = formatResult(result: result)              // format and display result
         case "+/-":
             toggleButton()
         default:
@@ -48,6 +44,7 @@ class ViewController: UIViewController {
     }
         
     
+    // Perform scientic and basic calculator operations
     func basicAndScientificCalc(var providedString: String) -> Double {
         var formatInput = providedString.map { "\($0)" }.joined(separator: " ") // format by adding space between
         let inputArray = formatInput.split(separator: " ").map(String.init)
@@ -102,24 +99,16 @@ class ViewController: UIViewController {
         {
         case "AC":
             ResultLabel.text = "0"
-          //  HorizontalResultLabel.text = "0"
-            
             InputLabel.text = "0"
-          //  HorizontalInputLabel.text = "0"
             
         default:
             if(InputLabel.text!.count == 1)
             {
                 InputLabel.text = "0"
             }
-//            else if(HorizontalInputLabel.text!.count == 1)
-//            {
-//                HorizontalInputLabel.text = "0"
-//            }
             else
             {
                 InputLabel.text?.removeLast()
-              //  HorizontalInputLabel.text?.removeLast()
             }
         }
     }
