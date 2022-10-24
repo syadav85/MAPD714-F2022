@@ -28,7 +28,7 @@ class ViewController: UIViewController {
     @IBAction func NumberButton_Pressed(_ sender: UIButton) {
         let button = sender as UIButton
         let buttonValue = button.titleLabel?.text
-        HorizontalInputLabel.text = " "
+        // HorizontalInputLabel.text = " "
         
         switch (buttonValue)
         {
@@ -37,75 +37,58 @@ class ViewController: UIViewController {
             {
                 InputLabel.text?.append(buttonValue!)
             }
-            else if (!HorizontalInputLabel.text!.contains("."))
-            {
-                HorizontalInputLabel.text?.append(buttonValue!)
-            }
+//            else if(!HorizontalInputLabel.text!.contains(".")){
+//                HorizontalInputLabel.text?.append(buttonValue!)
+//            }
         case "=":
-            var providedString: String = String(InputLabel.text!)                // store user Input
-            var providedString2: String = String(HorizontalInputLabel.text!)
-            
-            providedString = providedString.map { "\($0)" }.joined(separator: " ") // format by adding space between
-            providedString2 = providedString2.map{ "\($0)" }.joined(separator: " ")
-            
-            InputLabel.text = providedString                    // display user input in input label
-            HorizontalInputLabel.text = providedString2
-            
-            var result = calculate(var: providedString)     // call calculate to get expression result
-            var result2 = calculate(var: providedString2)
-            
-            ResultLabel.text = formatResult(result: result) // format and display result
-            HorizontalResultLabel.text = formatResult(result: result2)
+            var providedString: String = String(InputLabel.text!)
+            var result3 = scientificCalc(var: providedString)
+                            
+                        
+                    
+           // providedString = providedString.map { "\($0)" }.joined(separator: " ") // format by adding space between
+           // InputLabel.text = providedString                    // display user input in input label
+           //  result3 = calculate(var: providedString)      // call calculate to get expression result
+            ResultLabel.text = formatResult(result: result3) // format and display result
+                    
             
         case "+/-":
             toggleButton()
             
-        case "!": //creating a for-in loop to do factorial of number 'x'
-            var reultFact  = 1
-            var x = HorizontalInputLabel.text
-            
-            for i in 1...x {
-                reultFact = reultFact * x
-                let x = x - 1
-            }
-            HorizontalResultLabel.text = "\(reultFact)"
-            //factorial(x: (HorizontalInputLabel.text))
-            
-        case "pi":
-            var providedStringP: String = String(3.141592653589793238)
-            providedStringP = providedStringP.map{ "\($0)" }.joined(separator: " ")
-            HorizontalInputLabel.text = providedStringP
-            HorizontalResultLabel.text = providedStringP
-            var resultP = calculate(var: providedStringP)
-            
-        case "e":
-            var providedStringE: String = String(2.718)
-            
-            
         default:
             InputLabel.text == "0" ? InputLabel.text = buttonValue : InputLabel.text?.append(buttonValue!)
-            HorizontalInputLabel.text == "0" ? HorizontalInputLabel.text = buttonValue : HorizontalInputLabel.text?.append(buttonValue!)
+//            HorizontalInputLabel.text == "0" ? HorizontalInputLabel.text = buttonValue : HorizontalInputLabel.text?.append(buttonValue!)
         }
     }
+        
     
-//    func factorial(x: Double) -> Double {
-//        var resultFact:Double = 1.0
-//
-//
-//        if (x == 0){
-//            HorizontalResultLabel.text = "1"
-//        }
-//        else if(x < 0){
-//            HorizontalResultLabel.text = "Not Valid!"
-//        }
-//        else {
-//            factorial(x: x-1)
-//            resultFact = resultFact * x
-//        }
-//        return resultFact
-//        HorizontalResultLabel.text = "\(resultFact)"
-//
-//    }
+    func scientificCalc(var providedString: String) -> Double {
+        var result3 : Double = 0.0
+        var formatInput = providedString.map { "\($0)" }.joined(separator: " ") // format by adding space between
+        let inputArray = formatInput.split(separator: " ").map(String.init)
+       
+        switch providedString {
+        case _ where providedString.contains("sin"):
+            let value = Double(inputArray[4] + inputArray[5])
+            return Double(sin(value ?? 0))
+        case _ where providedString.contains("cos"):
+            let value = Double(inputArray[4] + inputArray[5])
+            return Double(cos(value ?? 0))
+        case _ where providedString.contains("tan"):
+            let value = Double(inputArray[4] + inputArray[5])
+            return Double(tan(value ?? 0))
+        case _ where providedString.contains("Rand"):
+            return Double(Double.random(in: 1...100))
+        case _ where providedString.contains("x^2"):
+            return Double((Double(inputArray[0]) ?? 0) * (Double(inputArray[0]) ?? 0))
+        case _ where providedString.contains("√x"):
+            let value = Double(inputArray[2] + inputArray[3])
+            return Double(sqrt(value ?? 0))
+           default:
+            return calculate(var: formatInput)
+           }
+    }
+    
     
     //this method toggles + and - button by replacing the character
     func toggleButton() {
@@ -138,22 +121,6 @@ class ViewController: UIViewController {
         }
     }
     
-//    @IBAction func mathPii_Pressed(_ sender: UIButton) {
-//        var providedStringP: String = String(3.141592653589793238)
-//
-//        HorizontalResultLabel.text = providedStringP
-//
-//        let mathButton = sender as UIButton
-//        let mathButtonText = mathButton.titleLabel?.text
-//
-//        switch mathButtonText{
-//        case "+":
-//            HorizontalInputLabel.text = providedStringP +
-//
-//        }
-//
-//
-//    }
     
     // this method clears single and all value in input label, result label
     @IBAction func ExtraButton_Pressed(_ sender: UIButton) {
@@ -163,24 +130,24 @@ class ViewController: UIViewController {
         {
         case "AC":
             ResultLabel.text = "0"
-            HorizontalResultLabel.text = "0"
+          //  HorizontalResultLabel.text = "0"
             
             InputLabel.text = "0"
-            HorizontalInputLabel.text = "0"
+          //  HorizontalInputLabel.text = "0"
             
         default:
             if(InputLabel.text!.count == 1)
             {
                 InputLabel.text = "0"
             }
-            else if(HorizontalInputLabel.text!.count == 1)
-            {
-                HorizontalInputLabel.text = "0"
-            }
+//            else if(HorizontalInputLabel.text!.count == 1)
+//            {
+//                HorizontalInputLabel.text = "0"
+//            }
             else
             {
                 InputLabel.text?.removeLast()
-                HorizontalInputLabel.text?.removeLast()
+              //  HorizontalInputLabel.text?.removeLast()
             }
         }
     }
@@ -191,7 +158,6 @@ class ViewController: UIViewController {
         let inputValues = providedExpression.split(separator: " ").map(String.init)
         let stackOperand = CalculatorStack()
         let stackOperator = CalculatorStack()
-        //var providedStringP: String = String(3.141592653589793238)
 
         for (_, inputValue) in inputValues.enumerated() {
             if inputValue.isTypeNumber {
@@ -203,11 +169,7 @@ class ViewController: UIViewController {
                         var calcResult = 0.0
                         switch stackOperator.lookValue {
                         case "+":
-//                            if(HorizontalResultLabel.text == providedStringP){
-//                                calcResult = Double(providedStringP)! + Double(stackOperand.popValue())!
-//                            }else{
-                                calcResult = Double(stackOperand.popValue())! + Double(stackOperand.popValue())!
-                            
+                            calcResult = Double(stackOperand.popValue())! + Double(stackOperand.popValue())!
                         case "-":
                             calcResult = Double(stackOperand.stackValue[stackOperand.stackValue.count-2])! - Double(stackOperand.popValue())!
                             stackOperand.popValue()
@@ -219,33 +181,22 @@ class ViewController: UIViewController {
                         case "%":
                             calcResult = Double(stackOperand.popValue())! / 100
                             stackOperand.popValue()
-//                        case "pi":
-//                            var providedStringP: String = String(3.141592653589793238)
-//                            if (HorizontalInputLabel.text == "+"){
-//                                calcResult = Double(providedStringP)! + Double(stackOperand.popValue())!
+                        case "π":
+                            calcResult = Double(stackOperand.popValue())! * 3.141592653589793238
+                            stackOperand.popValue()
+//                        case "x^2":
+//                            let num: String = String(HorizontalInputLabel.text!)
+//                            if(num == " " || num == "0"){
+//                                HorizontalResultLabel.text = "First enter value of x"
 //                            }
-//                            else if(HorizontalInputLabel.text == "-"){
-//                                calcResult = Double(providedStringP)! - Double(stackOperand.popValue())!
-//                                stackOperand.popValue()
-//                            }
-//                            else if(HorizontalInputLabel.text == "x"){
-//                                calcResult = Double(providedStringP)! * Double(stackOperand.popValue())!
-//                            }
-//                            else if(HorizontalInputLabel.text == "/"){
-//                                calcResult = Double(providedStringP)! / Double(stackOperand.popValue())!
-//                                stackOperand.popValue()
-//                            }
-//                            else if(HorizontalInputLabel.text == "%"){
-//                                calcResult = Double(providedStringP)! / 100
-//                                stackOperand.popValue()
-//                            }
-//                            else if(HorizontalInputLabel.text == "\(3.141592653589793238)"){
-//                                    HorizontalResultLabel.text = providedStringP
-//                            }
-//                            else{
+//                            else if(num < "0"){
 //                                HorizontalResultLabel.text = "Error"
+//                            }else if(num > "0"){
+//                                calcResult = Double(num)! * Double(num)!
 //                            }
-//
+                            
+                            
+                            calcResult = Double(stackOperand.popValue())! * Double(stackOperand.popValue())!
                         default:
                             calcResult = 0
                         }
@@ -261,13 +212,7 @@ class ViewController: UIViewController {
             var calcResult = 0.0
             switch stackOperator.lookValue {
             case "+":
-                //var p:String = "\(HorizontalInputLabel.text)"
-//                if(HorizontalResultLabel.text == providedStringP){
-//                    p = Double(providedStringP)! + Double(stackOperand.popValue())!
-//                    calcResult = Double(providedStringP)! + Double(stackOperand.popValue())!
-//                }else{
-                    calcResult = Double(stackOperand.popValue())! + Double(stackOperand.popValue())!
-                
+                calcResult = Double(stackOperand.popValue())! + Double(stackOperand.popValue())!
             case "-":
                 calcResult = Double(stackOperand.stackValue[stackOperand.stackValue.count-2])! - Double(stackOperand.popValue())!
                 stackOperand.popValue()
@@ -279,32 +224,9 @@ class ViewController: UIViewController {
             case "%":
                 calcResult = Double(stackOperand.popValue())! / 100
                 stackOperand.popValue()
-//            case "pi":
-//                var providedStringP: String = String(3.141592653589793238)
-//                if (HorizontalInputLabel.text == "+"){
-//                    calcResult = Double(providedStringP)! + Double(stackOperand.popValue())!
-//                }
-//                else if(HorizontalInputLabel.text == "-"){
-//                    calcResult = Double(providedStringP)! - Double(stackOperand.popValue())!
-//                    stackOperand.popValue()
-//                }
-//                else if(HorizontalInputLabel.text == "x"){
-//                    calcResult = Double(providedStringP)! * Double(stackOperand.popValue())!
-//                }
-//                else if(HorizontalInputLabel.text == "/"){
-//                    calcResult = Double(providedStringP)! / Double(stackOperand.popValue())!
-//                    stackOperand.popValue()
-//                }
-//                else if(HorizontalInputLabel.text == "%"){
-//                    calcResult = Double(providedStringP)! / 100
-//                    stackOperand.popValue()
-//                }
-//                else if(HorizontalInputLabel.text == "\(3.141592653589793238)"){
-//                        HorizontalResultLabel.text = providedStringP
-//                }
-//                else{
-//                    HorizontalResultLabel.text = "Error"
-//                }
+            case "π":
+                calcResult = Double(stackOperand.popValue())! * 3.141592653589793238
+                stackOperand.popValue()
             default:
                 calcResult = 0
             }
@@ -386,6 +308,8 @@ extension String {
                 return 0
                 case "%":
                 return 0
+                case "π":
+                return 0
             default:
                 return 100
             }
@@ -400,7 +324,7 @@ extension String {
     
     var isTypeOperator: Bool {
         get {
-            return ("+-x/%" as NSString).contains(self)
+            return ("+-x/%π" as NSString).contains(self)
         }
     }
 }
